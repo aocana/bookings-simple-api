@@ -1,12 +1,15 @@
 package com.bookings.simple.user;
 
+import com.bookings.simple.user.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
 
-@Service @RequiredArgsConstructor @Transactional
+@Service
+@Transactional
+@RequiredArgsConstructor
 public class UserServiceImpl implements IUserService{
 
     private final IUserDao userDao;
@@ -27,7 +30,7 @@ public class UserServiceImpl implements IUserService{
     }
 
     @Override
-    public User update(User user) {
+    public User update(UserDto userDto) {
         return null;
     }
 }

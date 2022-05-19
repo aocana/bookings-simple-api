@@ -1,6 +1,13 @@
 package com.bookings.simple.booking;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface IBookingService extends JpaRepository<Booking, Long> {
+import java.util.List;
+
+public interface IBookingService{
+    List<Booking> getAll();
+    Booking get(Long id);
+    List<Booking> getByUser(Long userId);
+    Booking save(Booking booking);
+    Booking update(Booking booking);
+    void delete(Long id);
 }
