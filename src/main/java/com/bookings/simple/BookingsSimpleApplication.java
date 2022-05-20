@@ -12,9 +12,5 @@ public class BookingsSimpleApplication {
         SpringApplication.run(BookingsSimpleApplication.class, args);
     }
 
-    @Bean
-    public ModelMapper modelMapper(){
-        return new ModelMapper();
-    }
 
 }
