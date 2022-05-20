@@ -1,16 +1,15 @@
 package com.bookings.simple.controllers;
 
 import com.bookings.simple.user.User;
-import com.bookings.simple.user.dto.UserFindByPhoneDto;
 import lombok.RequiredArgsConstructor;
 import com.bookings.simple.user.dto.UserDto;
 import com.bookings.simple.user.IUserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.bookings.simple.user.dto.UserDtoConverter;
+import com.bookings.simple.user.dto.UserFindByPhoneDto;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -40,14 +39,23 @@ public class UserController {
         return ResponseEntity.ok().body(userService.get(id));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<User> update(@RequestParam Long userId, @RequestBody UserDto userDto){
+        User user = userService.get(userId);
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setPhone(userDto.getPhone());
+        userService.save(user);
+        return ResponseEntity.ok().build();
+    }
+
     @PostMapping("/findByPhone")
     public ResponseEntity<?> findByPhone(@RequestBody UserFindByPhoneDto userDto){
         User user = userService.findByPhone(userDto.getPhone());
         if (user == null){
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok().body(user);
         }
     }
-
 }

@@ -36,16 +36,6 @@ public class BookingController {
         }
     }
 
-    @GetMapping("/{id}")
-    ResponseEntity<Booking> get(@RequestParam Long bookingId){
-        return ResponseEntity.ok().body(bookingService.get(bookingId));
-    }
-
-    @GetMapping("/user/{id}")
-    ResponseEntity<List<Booking>> getAllByUserId(@RequestParam Long userId){
-        return ResponseEntity.ok().body(bookingService.getByUser(userId));
-    }
-
     @PostMapping
     ResponseEntity<BookingDto> save(@RequestBody BookingDto bookingDto){
         User user = userService.get(bookingDto.getUserId());
@@ -56,9 +46,19 @@ public class BookingController {
         );
     }
 
+    @GetMapping("/{id}")
+    ResponseEntity<Booking> get(@RequestParam Long bookingId){
+        return ResponseEntity.ok().body(bookingService.get(bookingId));
+    }
+
     @DeleteMapping("/{id}")
     ResponseEntity<?> delete(@RequestParam Long id){
         bookingService.delete(id);
         return ResponseEntity.status(204).build();
+    }
+
+    @GetMapping("/user/{id}")
+    ResponseEntity<List<Booking>> getAllByUserId(@RequestParam Long userId){
+        return ResponseEntity.ok().body(bookingService.getByUser(userId));
     }
 }

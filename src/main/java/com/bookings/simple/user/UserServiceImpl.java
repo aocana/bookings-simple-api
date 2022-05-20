@@ -1,6 +1,5 @@
 package com.bookings.simple.user;
 
-import com.bookings.simple.user.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,10 +31,5 @@ public class UserServiceImpl implements IUserService{
     @Override
     public User save(User user) {
         return userDao.save(user);
-    }
-
-    @Override
-    public User update(UserDto userDto) {
-        return null;
     }
 }
