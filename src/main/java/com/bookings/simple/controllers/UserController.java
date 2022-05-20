@@ -42,8 +42,12 @@ public class UserController {
 
     @PostMapping("/findByPhone")
     public ResponseEntity<?> findByPhone(@RequestBody UserFindByPhoneDto userDto){
-        System.out.println(userDto);
-        return ResponseEntity.ok().body(userService.findByPhone(userDto.getPhone()));
+        User user = userService.findByPhone(userDto.getPhone());
+        if (user == null){
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().body(user);
+        }
     }
 
 }
