@@ -1,6 +1,7 @@
 package com.bookings.simple.controllers;
 
 import com.bookings.simple.user.User;
+import com.bookings.simple.user.dto.UserFindByPhoneDto;
 import lombok.RequiredArgsConstructor;
 import com.bookings.simple.user.dto.UserDto;
 import com.bookings.simple.user.IUserService;
@@ -24,12 +25,7 @@ public class UserController {
         if (result.isEmpty()){
             return ResponseEntity.noContent().build();
         }else {
-            List<UserDto> dtoList = result
-                    .stream()
-                    .map(userDtoConverter::convertUserEntityToDto)
-                    .collect(Collectors.toList());
-
-            return ResponseEntity.ok().body(dtoList);
+            return ResponseEntity.ok().body(result);
         }
     }
 
@@ -40,9 +36,14 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> get(@RequestParam Long id){
-        User user = userService.get(id);
-        return ResponseEntity.ok().body(userDtoConverter.convertUserEntityToDto(user));
+    public ResponseEntity<User> get(@RequestParam Long id){
+        return ResponseEntity.ok().body(userService.get(id));
+    }
+
+    @PostMapping("/findByPhone")
+    public ResponseEntity<?> findByPhone(@RequestBody UserFindByPhoneDto userDto){
+        System.out.println(userDto);
+        return ResponseEntity.ok().body(userService.findByPhone(userDto.getPhone()));
     }
 
 }

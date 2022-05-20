@@ -47,11 +47,12 @@ public class BookingController {
     }
 
     @PostMapping
-    ResponseEntity<Booking> save(@RequestBody BookingDto bookingDto){
+    ResponseEntity<BookingDto> save(@RequestBody BookingDto bookingDto){
         User user = userService.get(bookingDto.getUserId());
+        Booking newBooking = bookingService.save(new Booking(user, bookingDto.getBookingDate()));
 
         return  ResponseEntity.ok().body(
-                bookingService.save(new Booking(user, bookingDto.getBookingDate()))
+                bookingDtoConverter.convertBookingEntityToDto(newBooking)
         );
     }
 

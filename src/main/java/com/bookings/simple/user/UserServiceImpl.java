@@ -25,6 +25,11 @@ public class UserServiceImpl implements IUserService{
     }
 
     @Override
+    public User findByPhone(String phone) {
+        return userDao.findByPhone(phone);
+    }
+
+    @Override
     public User save(User user) {
         return userDao.save(user);
     }
