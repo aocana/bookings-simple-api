@@ -3,7 +3,6 @@ package com.bookings.simple.booking;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
 import javax.transaction.Transactional;
 

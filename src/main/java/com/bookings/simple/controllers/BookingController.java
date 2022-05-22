@@ -1,5 +1,6 @@
 package com.bookings.simple.controllers;
 
+import com.bookings.simple.booking.dto.CreateBookingDto;
 import com.bookings.simple.user.User;
 import lombok.RequiredArgsConstructor;
 import com.bookings.simple.booking.Booking;
@@ -37,7 +38,7 @@ public class BookingController {
     }
 
     @PostMapping
-    ResponseEntity<BookingDto> save(@RequestBody BookingDto bookingDto){
+    ResponseEntity<BookingDto> save(@RequestBody CreateBookingDto bookingDto){
         User user = userService.get(bookingDto.getUserId());
         Booking newBooking = bookingService.save(new Booking(user, bookingDto.getBookingDate()));
 
@@ -47,8 +48,9 @@ public class BookingController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Booking> get(@RequestParam Long bookingId){
-        return ResponseEntity.ok().body(bookingService.get(bookingId));
+    ResponseEntity<BookingDto> get(@RequestParam Long bookingId){
+        Booking booking = bookingService.get(bookingId);
+        return ResponseEntity.ok().body(bookingDtoConverter.convertBookingEntityToDto(booking));
     }
 
     @DeleteMapping("/{id}")
@@ -58,7 +60,18 @@ public class BookingController {
     }
 
     @GetMapping("/user/{id}")
-    ResponseEntity<List<Booking>> getAllByUserId(@RequestParam Long userId){
-        return ResponseEntity.ok().body(bookingService.getByUser(userId));
+    ResponseEntity<List<BookingDto>> getAllByUserId(@RequestParam Long userId){
+        List<Booking> result = bookingService.getByUser(userId);
+
+        if (result.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }else {
+            List<BookingDto> dtoList = result
+                    .stream()
+                    .map(bookingDtoConverter::convertBookingEntityToDto)
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.ok().body(dtoList);
+        }
     }
 }
